@@ -1,0 +1,16 @@
+.article-title,
+.article-preview {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+.article-title {
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+
+.article-preview {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}

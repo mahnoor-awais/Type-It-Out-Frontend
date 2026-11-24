@@ -1,1 +1,63 @@
-<p>navbar works!</p>
+<nav aria-label="Primary" class="border-b border-border bg-surface">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-4 px-4 py-4 sm:px-6">
+    <label class="relative order-3 w-full flex-1 sm:order-none sm:w-auto sm:max-w-xl">
+      <span class="sr-only">Search articles</span>
+      <i
+        class="fa-solid fa-magnifying-glass pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-readable"
+        aria-hidden="true"
+      ></i>
+      <input
+        class="w-full rounded-full border border-border bg-background py-2 pl-10 pr-4 text-sm text-ink placeholder:text-muted-readable focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage/20"
+        type="search"
+        placeholder="Search articles"
+        (input)="onSearchInput($event)"
+      />
+    </label>
+
+    <div class="ml-auto flex items-center gap-3">
+      <div class="flex items-center gap-2">
+        @if (user(); as profile) {
+          @if (profile.profileImageUrl) {
+            <img
+              class="h-10 w-10 rounded-full border border-border object-cover"
+              [src]="profile.profileImageUrl"
+              alt=""
+            />
+          } @else {
+            <span
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-sage-soft text-sm font-semibold text-sage"
+              role="img"
+              [attr.aria-label]="profile.username + ' profile'"
+            >
+              {{ getInitial(profile.username) }}
+            </span>
+          }
+          <span class="hidden text-sm font-medium text-ink sm:inline">
+            {{ profile.username }}
+          </span>
+        } @else {
+          <span
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-sage-soft text-sage"
+            role="img"
+            [attr.aria-label]="isLoadingProfile() ? 'Loading profile' : 'Profile unavailable'"
+          >
+            <i class="fa-solid fa-user" aria-hidden="true"></i>
+          </span>
+        }
+      </div>
+      @if (profileError()) {
+        <span class="max-w-40 text-xs text-muted-readable" role="alert">
+          {{ profileError() }}
+        </span>
+      }
+
+      <button
+        class="rounded-full border border-sage px-4 py-2 text-sm font-semibold text-sage hover:bg-sage-soft"
+        type="button"
+        (click)="logoutRequested.emit()"
+      >
+        Log out
+      </button>
+    </div>
+  </div>
+</nav>

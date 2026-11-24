@@ -1,1 +1,44 @@
-<p>article-card works!</p>
+<article class="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+  <header>
+    <p class="text-sm font-medium text-muted-readable">{{ article.author.username }}</p>
+    <h3 class="article-title mt-1 font-display text-2xl font-semibold leading-tight text-ink">
+      {{ article.title }}
+    </h3>
+    <time class="mt-2 block text-xs text-muted-readable">{{ formattedCreatedAt }}</time>
+  </header>
+
+  <p class="article-preview mt-4 whitespace-pre-line leading-7 text-ink">{{ previewContent }}</p>
+
+  <footer class="mt-5 border-t border-border pt-4 text-sm text-muted-readable">
+    <div class="flex items-center gap-5">
+      <button
+        class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 hover:bg-sage-soft disabled:cursor-not-allowed disabled:opacity-60"
+        type="button"
+        [disabled]="isLikeRequestPending() || !canToggleLike()"
+        [class.text-sage]="isLiked()"
+        [class.text-muted-readable]="!isLiked()"
+        [attr.aria-pressed]="isLiked()"
+        [attr.aria-label]="
+          (isLiked() ? 'Unlike article' : 'Like article') +
+          ', ' +
+          displayedLikesCount() +
+          (displayedLikesCount() === 1 ? ' like' : ' likes')
+        "
+        (click)="toggleLike($event)"
+      >
+        <i
+          [class.fa-solid]="isLiked()"
+          [class.fa-regular]="!isLiked()"
+          class="fa-heart h-4 w-4 text-center"
+          aria-hidden="true"
+        ></i>
+        <span>{{ displayedLikesCount() }}</span>
+      </button>
+      <span>{{ article.commentsCount }} comments</span>
+    </div>
+    @if (likeError()) {
+      <p class="mt-2 text-xs text-muted-readable" role="alert">{{ likeError() }}</p>
+    }
+  </footer>
+</article>
+<div style="height: 1px; margin: 1rem 0"></div>

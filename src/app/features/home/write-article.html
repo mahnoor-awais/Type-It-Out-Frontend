@@ -1,0 +1,49 @@
+<section aria-labelledby="write-heading" class="write-screen">
+  <h1 id="write-heading" class="write-heading">Write an article</h1>
+  <form class="write-form" [formGroup]="articleForm" (ngSubmit)="submitArticle()" novalidate>
+    <label for="article-title">Title</label>
+    <input
+      id="article-title"
+      type="text"
+      autocomplete="off"
+      placeholder="Give your article a title"
+      formControlName="title"
+      [attr.aria-invalid]="articleForm.controls.title.invalid && articleForm.controls.title.touched"
+      [attr.aria-describedby]="
+        articleForm.controls.title.invalid && articleForm.controls.title.touched
+          ? 'article-title-error'
+          : null
+      "
+    />
+    @if (articleForm.controls.title.invalid && articleForm.controls.title.touched) {
+      <p id="article-title-error" class="write-form-error">Title is required.</p>
+    }
+
+    <label for="article-content">Your story</label>
+    <textarea
+      id="article-content"
+      rows="10"
+      placeholder="Start writing..."
+      formControlName="content"
+      [attr.aria-invalid]="
+        articleForm.controls.content.invalid && articleForm.controls.content.touched
+      "
+      [attr.aria-describedby]="
+        articleForm.controls.content.invalid && articleForm.controls.content.touched
+          ? 'article-content-error'
+          : null
+      "
+    ></textarea>
+    @if (articleForm.controls.content.invalid && articleForm.controls.content.touched) {
+      <p id="article-content-error" class="write-form-error">Content is required.</p>
+    }
+
+    @if (createArticleError()) {
+      <p class="write-form-error" role="alert">{{ createArticleError() }}</p>
+    }
+
+    <button type="submit" [disabled]="isCreatingArticle()">
+      {{ isCreatingArticle() ? 'Publishing...' : 'Publish article' }}
+    </button>
+  </form>
+</section>
