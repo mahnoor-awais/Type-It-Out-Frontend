@@ -1,1 +1,25 @@
-<p>article-feed works!</p>
+<section aria-labelledby="articles-heading" class="mx-auto w-full max-w-3xl space-y-5">
+  <h2 id="articles-heading" class="font-display text-3xl font-semibold text-ink">
+    {{ heading() }}
+  </h2>
+
+  @if (isLoading()) {
+    <p class="text-muted-readable" role="status">Loading articles...</p>
+  } @else if (errorMessage()) {
+    <p class="rounded-lg bg-red-50 p-4 text-red-700" role="alert">{{ errorMessage() }}</p>
+  } @else if (articles().length === 0) {
+    <p class="rounded-xl border border-border bg-surface p-6 text-muted-readable shadow-sm">
+      {{ emptyMessage() }}
+    </p>
+  } @else if (filteredArticles().length === 0) {
+    <p class="rounded-xl border border-border bg-surface p-6 text-muted-readable shadow-sm">
+      No articles match your search.
+    </p>
+  } @else {
+    <div class="space-y-6">
+      @for (article of filteredArticles(); track article.id) {
+        <app-article-card [article]="article" />
+      }
+    </div>
+  }
+</section>

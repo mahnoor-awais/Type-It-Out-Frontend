@@ -85,6 +85,87 @@ describe('ArticleService', () => {
 
     expect(response).toEqual(articles);
   });
+
+  it('gets a user article list from the user articles endpoint', () => {
+    const token = createToken(7);
+    TestBed.inject(AuthService).saveToken(token);
+    const articles: Article[] = [
+      {
+        id: 2,
+        title: 'User article',
+        content: 'Writing by this user.',
+        createdAt: '2026-11-17T12:55:40.252454',
+        updatedAt: null,
+        likesCount: 0,
+        commentsCount: 0,
+        author: {
+          id: 7,
+          username: 'writer',
+          profileImageUrl: null,
+        },
+      },
+    ];
+    let response: Article[] | undefined;
+
+    service.getUserArticles(7).subscribe((result) => (response = result));
+
+    const request = httpTestingController.expectOne(`${API_BASE_URL}/User/7/articles`);
+    expect(request.request.method).toBe('GET');
+    expect(request.request.params.keys()).toEqual([]);
+    expect(request.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    request.flush(articles);
+
+    expect(response).toEqual(articles);
+  });
+
+  it('gets liked articles from the user liked articles endpoint', () => {
+    const token = createToken(7);
+    TestBed.inject(AuthService).saveToken(token);
+    const articles: Article[] = [
+      {
+        id: 3,
+        title: 'Liked article',
+        content: 'An article the current user liked.',
+        createdAt: '2026-11-17T12:55:40.252454',
+        updatedAt: null,
+        likesCount: 1,
+        commentsCount: 0,
+        author: {
+          id: 9,
+          username: 'writer',
+          profileImageUrl: null,
+        },
+      },
+    ];
+    let response: Article[] | undefined;
+
+    service.getUserLikedArticles(7).subscribe((result) => (response = result));
+
+    const request = httpTestingController.expectOne(`${API_BASE_URL}/User/7/liked-articles`);
+    expect(request.request.method).toBe('GET');
+    expect(request.request.params.keys()).toEqual([]);
+    expect(request.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    request.flush(articles);
+
+    expect(response).toEqual(articles);
+  });
+
+  it('creates an article with only the supplied title and content', () => {
+    const token = createToken(7);
+    TestBed.inject(AuthService).saveToken(token);
+    const article = {
+      title: 'A new article',
+      content: 'The full article content.',
+    };
+
+    service.createArticle(article).subscribe();
+
+    const request = httpTestingController.expectOne(`${API_BASE_URL}/Articles/articles`);
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual(article);
+    expect(request.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    request.flush(null);
+  });
 });
 
 function createToken(userId: number): string {

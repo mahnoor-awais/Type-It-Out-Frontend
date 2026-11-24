@@ -1,1 +1,4 @@
-<p>home works!</p>
+<main class="home-screen" aria-labelledby="home-heading">
+  <h1 id="home-heading" class="sr-only">Latest articles</h1>
+  <app-article-feed feedType="latest" [searchTerm]="searchTerm()" />
+</main>

@@ -15,6 +15,11 @@ export interface Article {
   author: ArticleAuthor;
 }
 
+export interface CreateArticleRequest {
+  title: string;
+  content: string;
+}
+
 export interface ArticleLikeUser {
   id: number;
   username: string;

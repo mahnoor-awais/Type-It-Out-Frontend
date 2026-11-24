@@ -1,1 +1,58 @@
-<router-outlet />
+<div class="app-layout" [class.app-layout-shell]="showShell()">
+  @if (showShell()) {
+    <aside class="app-sidebar" aria-label="Home sidebar">
+      <a class="app-brand" routerLink="/" aria-label="Type-It-Out home">Type-It-Out</a>
+
+      <nav class="app-navigation" aria-label="Home navigation">
+        <a
+          class="app-navigation-link"
+          routerLink="/following"
+          routerLinkActive="app-navigation-link-active"
+          ariaCurrentWhenActive="page"
+        >
+          <i class="fa-solid fa-users" aria-hidden="true"></i>
+          <span>Following</span>
+        </a>
+
+        <a
+          class="app-navigation-link"
+          routerLink="/write"
+          routerLinkActive="app-navigation-link-active"
+          ariaCurrentWhenActive="page"
+        >
+          <i class="fa-solid fa-pen" aria-hidden="true"></i>
+          <span>Write</span>
+        </a>
+
+        <a
+          class="app-navigation-link"
+          routerLink="/my-articles"
+          routerLinkActive="app-navigation-link-active"
+          ariaCurrentWhenActive="page"
+        >
+          <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+          <span>My Articles</span>
+        </a>
+
+        <a
+          class="app-navigation-link"
+          routerLink="/liked-articles"
+          routerLinkActive="app-navigation-link-active"
+          ariaCurrentWhenActive="page"
+        >
+          <i class="fa-solid fa-heart" aria-hidden="true"></i>
+          <span>Liked Articles</span>
+        </a>
+      </nav>
+    </aside>
+  }
+
+  <div class="app-content">
+    @if (showShell()) {
+      <app-navbar (searchChange)="updateSearchTerm($event)" (logoutRequested)="logout()" />
+    }
+    <div class="app-route-area" [class.app-route-area-shell]="showShell()">
+      <router-outlet />
+    </div>
+  </div>
+</div>
