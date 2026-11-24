@@ -1,0 +1,70 @@
+<main class="flex min-h-screen items-center justify-center bg-background px-4 py-12">
+  <section class="w-full max-w-md rounded-2xl border border-border bg-surface p-8 shadow-sm">
+    <h1 class="font-display text-3xl font-semibold text-ink">Create your account</h1>
+    <p class="mt-2 text-muted-readable">Join Type-It-Out and start sharing your writing.</p>
+
+    <form class="mt-8 space-y-5" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div>
+        <label class="mb-1 block text-sm font-medium text-ink" for="username">Username</label>
+        <input
+          class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-ink focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage/20"
+          id="username"
+          type="text"
+          autocomplete="username"
+          formControlName="username"
+          [attr.aria-invalid]="form.controls.username.invalid && form.controls.username.touched"
+        />
+        @if (form.controls.username.invalid && form.controls.username.touched) {
+          <p class="mt-1 text-sm text-red-600">Username is required.</p>
+        }
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium text-ink" for="email">Email</label>
+        <input
+          class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-ink focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage/20"
+          id="email"
+          type="email"
+          autocomplete="email"
+          formControlName="email"
+          [attr.aria-invalid]="form.controls.email.invalid && form.controls.email.touched"
+        />
+        @if (form.controls.email.invalid && form.controls.email.touched) {
+          <p class="mt-1 text-sm text-red-600">Enter a valid email address.</p>
+        }
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium text-ink" for="password">Password</label>
+        <input
+          class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-ink focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage/20"
+          id="password"
+          type="password"
+          autocomplete="new-password"
+          formControlName="password"
+          [attr.aria-invalid]="form.controls.password.invalid && form.controls.password.touched"
+        />
+        @if (form.controls.password.invalid && form.controls.password.touched) {
+          <p class="mt-1 text-sm text-red-600">Password must be at least 8 characters.</p>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-sm text-red-600" role="alert">{{ errorMessage }}</p>
+      }
+
+      <button
+        class="w-full rounded-lg bg-sage px-4 py-2.5 font-semibold text-white hover:bg-sage/90 disabled:cursor-not-allowed disabled:opacity-60"
+        type="submit"
+        [disabled]="isLoading"
+      >
+        {{ isLoading ? 'Creating account...' : 'Create account' }}
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-muted-readable">
+      Already have an account?
+      <a class="font-semibold text-sage hover:underline" routerLink="/login">Log in</a>
+    </p>
+  </section>
+</main>
